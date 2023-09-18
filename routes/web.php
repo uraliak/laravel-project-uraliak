@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\MainController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,7 +14,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    // return view('welcome');
-    return view('main.main');
+// Route::get('/', function () {
+//     // return view('welcome');
+//     return view('main.main');
+// });
+
+Route::get('/', [MainController::class, 'index']);
+
+Route::get('contacts', function(){
+    $contact = [
+        'name' => 'Mospolytech',
+        'address' => 'B. Semenovskaya 38',
+        'phone' => '+7(495)-999-99-99'
+    ];
+    return view('main.contact', ['data' => $contact]);
 });
