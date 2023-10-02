@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MainController;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,9 +20,15 @@ use App\Http\Controllers\MainController;
 //     return view('main.main');
 // });
 
-Route::get('/', [MainController::class, 'index']);
+///Auth
 
-Route::get('contacts', function(){
+Route::get('/create', [AuthController::class, 'create']);
+Route::post('/registr', [AuthController::class, 'registr']);
+
+Route::get('/', [MainController::class, 'index']);
+Route::get('galery/{img}', [MainController::class, 'show']);
+
+Route::get('/contacts', function(){
     $contact = [
         'name' => 'Mospolytech',
         'address' => 'B. Semenovskaya 38',
