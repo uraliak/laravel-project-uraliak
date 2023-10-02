@@ -21,7 +21,7 @@ class ArticleFactory extends Factory
             'name'=>$this->faker->sentence(),
             'short_desc'=>$this->faker->paragraph(),
             'desc'=>$this->faker->text(),
-            'author_id'=>'1',
+            'author_id'=>'1'
             //
         ];
     }

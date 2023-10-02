@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ArticleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,6 +20,9 @@ use App\Http\Controllers\AuthController;
 //     // return view('welcome');
 //     return view('main.main');
 // });
+
+//Article
+Route::resource('/article', ArticleController::class);
 
 ///Auth
 

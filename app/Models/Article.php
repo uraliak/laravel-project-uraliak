@@ -4,13 +4,21 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Comment;
 
 class Article extends Model
 {
-    // protected $fillable = [
-    //     'name',
-    //     'short_desc',
-    //     'desc',
-    //     'author_id',
-    // ];
+    use HasFactory;
+
+    protected $fillable = [
+        'date',
+        'name',
+        'short_desc',
+        'desc',
+        'authorId',
+    ];
+
+    public function comment(){
+        return $this->hasMany(Comment::class);
+    }
 }
