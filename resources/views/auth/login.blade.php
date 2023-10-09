@@ -1,6 +1,6 @@
 @extends ('layout')
 @section ('content')
-<form action="/registr" method="post">
+<form action="/login" method="post">
     @csrf
     @if ($errors -> any())
         <div class="alert alert-danger">
@@ -13,10 +13,6 @@
             @endforeach
         </div>
     @endif
-  <div class="mb-3">
-    <label for="name" class="form-label">Name</label>
-    <input type="text" class="form-control" id="name" name="name">
-  </div>
   <div class="mb-3">
     <label for="exampleInputEmail1" class="form-label">Email address</label>
     <input type="email" class="form-control" name="email" id="exampleInputEmail1" aria-describedby="emailHelp">
