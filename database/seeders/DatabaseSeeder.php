@@ -5,6 +5,7 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Database\Seeders\ArticleSeeder;
+use Database\Seeders\RoleSeeder;
 use App\Models\Article;
 use App\Models\Comment;
 
@@ -23,8 +24,9 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
-        // $this->call([
-        //     ArticleSeeder::class,
-        // ]);
+        $this->call([
+            ArticleSeeder::class,
+            RoleSeeder::class,
+        ]);
     }
 }
