@@ -6,6 +6,9 @@ use App\Models\Article;
 use App\Models\Comment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use App\Mail\ArticleMail;
+use Illuminate\Support\Facades\Mail;
+use Symfony\Component\Mailer\Bridge\Mailgun\Transport\MailgunTransportFactory;
 
 class ArticleController extends Controller
 {
@@ -45,6 +48,7 @@ class ArticleController extends Controller
         $article->desc = $request->desc;
         $article->author_id = 1;
         $article->save();
+        Mail::to('kinyabulatovauralia@gmail.com')->send(new ArticleMail);
         return redirect('/article');
     }
 
@@ -62,6 +66,7 @@ class ArticleController extends Controller
      */
     public function edit(Article $article)
     {
+        Gate::authorize('update', [self::class, $article]);
         return view('articles.edit', ['article'=>$article]);
     }
 
@@ -90,6 +95,7 @@ class ArticleController extends Controller
      */
     public function destroy(Article $article)
     {
+        Gate::authorize('delete', [self::class, $article]);
         $comments = Comment::where('article_id', $article->id)->delete();
         $article->delete();
         return redirect('/article');

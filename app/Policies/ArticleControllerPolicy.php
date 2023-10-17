@@ -28,7 +28,7 @@ class ArticleControllerPolicy
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user)
+    public function create(User $user): bool
     {
         return $user->role === 'moderator' ?
         Response::allow() : 
@@ -39,17 +39,21 @@ class ArticleControllerPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Article $article): bool
+    public function update(User $user, Article $article)
     {
-        
+        return $user->role === 'moderator' ?
+        Response::allow() : 
+        Response::deny('Вы не модератор');
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Article $article): bool
+    public function delete(User $user, Article $article)
     {
-        //
+        return $user->role === 'moderator' ?
+        Response::allow() : 
+        Response::deny('Вы не модератор');
     }
 
     /**
