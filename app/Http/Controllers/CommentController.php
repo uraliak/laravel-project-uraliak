@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\Gate;
 use App\Models\Comment;
 use App\Models\Article;
 
+use Illuminate\Support\Facades\Mail;
+use App\Mail\AdminComment;
+
 class CommentController extends Controller
 {
     public function index(){
@@ -21,9 +24,9 @@ class CommentController extends Controller
         $comment = Comment::findOrFail($id);
         $comment->accept = true;
         $comment->save();
-        return redirect()->route('comments');
+        return redirect()->route('comments' );
     }
-
+        
     public function reject(int $id){
         $comment = Comment::findOrFail($id);
         $comment->accept = false;
@@ -37,12 +40,14 @@ class CommentController extends Controller
             'text'=> 'required',
             'article_id'=> 'required',
         ]);
+        $article = Article::findOrFail($request->article_id);
         $comment = new Comment;
         $comment->title = $request->title;
         $comment->text = $request->text;
         $comment->author_id = Auth::id();
         $comment->article_id = $request->article_id;
         $res = $comment->save();
+        if ($res) Mail::to('kinyabulatovauralia@gmail.com')->send(new AdminComment($article->name, $comment->text));
         return redirect()->route('article.show', ['article'=>$request->article_id, 'res'=> $res]);
     }
 

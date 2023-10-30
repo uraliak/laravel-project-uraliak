@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('comments', function (Blueprint $table) {
-            $table->bool('accept')->nullable()->add();
+            $table->boolean('accept')->nullable()->add();
         });
     }
 

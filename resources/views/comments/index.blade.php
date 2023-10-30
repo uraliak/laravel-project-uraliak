@@ -19,15 +19,15 @@
       <td>{{$article->name}}</a></td>
       @endif
       @endforeach
-      <td>{{$article->title}}</td>
-      <td>{{$article->text}}</td>
+      <td>{{$comment->title}}</td>
+      <td>{{$comment->text}}</td>
       <td><a href="/comment/accept/{{$comment->id}}" class="btn btn-primary">Accept</a></td>
       <td><a href="/comment/reject/{{$comment->id}}" class="btn btn-danger">Reject</a></td>
     </tr>
     @endforeach
   </tbody>
 </table>
-{{$articles->links()}}
+{{$comments->links()}}
 @endsection
 
     
