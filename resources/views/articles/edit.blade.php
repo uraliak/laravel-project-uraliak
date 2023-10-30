@@ -16,13 +16,11 @@
     @endif
   <div class="mb-3">
     <label for="date" class="form-label">Date</label>
-    <input type="date" class="form-control" id="date" name="date" value="{{$article->date}}">
-    <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+    <input type="date" class="form-control" id="date" name="date" value="{{$article->date}}">   
   </div>
   <div class="mb-3">
     <label for="title" class="form-label">Title</label>
-    <input type="text" class="form-control" name="title" id="title" aria-describedby="emailHelp" value="{{$article->name}}">
-    <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+    <input type="text" class="form-control" name="title" id="title" aria-describedby="emailHelp" value="{{$article->name}}">    
   </div>
   <div class="mb-3">
     <label for="shortDesc" class="form-label">ShortDesc</label>

@@ -10,6 +10,7 @@ use Illuminate\Mail\Mailable;
 // use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 // use Illuminate\Support\Facades\Mail;
+use App\Models\Article;
 
 class ArticleMail extends Mailable
 {
@@ -18,9 +19,12 @@ class ArticleMail extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct()
+
+    protected $article;
+
+    public function __construct(Article $article)
     {
-        //
+        $this->article=$article;
     }
 
     /**
@@ -60,6 +64,11 @@ class ArticleMail extends Mailable
     }
     public function build(){
         return $this->from('laravel@testingB.ru', "Uralia")
-                    ->view('main.article');
+                    ->view('mail.article', ['article'=>$this->article]);
     }
+
+    // public function build(){
+    //     return $this->from(env('MAIL_USERNAME'))
+    //                 ->view('mail.article', ['article'=>$this->article]);
+    // }
 }

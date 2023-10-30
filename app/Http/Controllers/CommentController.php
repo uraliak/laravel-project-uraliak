@@ -7,9 +7,30 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use App\Models\Comment;
+use App\Models\Article;
 
 class CommentController extends Controller
 {
+    public function index(){
+        $comments = Comment::latest()->paginate(10);
+        $articles = Article::all();
+        return view('comments.index', ['comments'=>$comments, 'articles'=>$articles]);
+    }
+
+    public function accept(int $id){
+        $comment = Comment::findOrFail($id);
+        $comment->accept = true;
+        $comment->save();
+        return redirect()->route('comments');
+    }
+
+    public function reject(int $id){
+        $comment = Comment::findOrFail($id);
+        $comment->accept = false;
+        $comment->save();
+        return redirect()->route('comments');
+    }
+
     public function store(Request $request){
         $request->validate([
             'title'=> 'required',
@@ -21,8 +42,8 @@ class CommentController extends Controller
         $comment->text = $request->text;
         $comment->author_id = Auth::id();
         $comment->article_id = $request->article_id;
-        $comment->save();
-        return redirect()->route('article.show', ['article'=>$request->article_id]);
+        $res = $comment->save();
+        return redirect()->route('article.show', ['article'=>$request->article_id, 'res'=> $res]);
     }
 
     public function edit($id){

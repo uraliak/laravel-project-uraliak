@@ -6,9 +6,11 @@ use App\Models\Article;
 use App\Models\Comment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
-use App\Mail\ArticleMail;
-use Illuminate\Support\Facades\Mail;
-// use Symfony\Component\Mailer\Bridge\Mailgun\Transport\MailgunTransportFactory;
+// use App\Mail\ArticleMail;
+// use Illuminate\Support\Facades\Mail;
+use Symfony\Component\Mailer\Bridge\Mailgun\Transport\MailgunTransportFactory;
+
+use App\Jobs\ArticleMailJob;
 
 class ArticleController extends Controller
 {
@@ -48,7 +50,8 @@ class ArticleController extends Controller
         $article->desc = $request->desc;
         $article->author_id = 1;
         $article->save();
-        Mail::to('kinyabulatovauralia@gmail.com')->send(new ArticleMail());
+        ArticleMailJob::dispatch($article);
+        // Mail::to('kinyabulatovauralia@gmail.com')->send(new ArticleMail($article));
         return redirect('/article');
     }
 
@@ -57,8 +60,12 @@ class ArticleController extends Controller
      */
     public function show(Article $article)
     {
-        $comments = Comment::where('article_id', $article->id)->latest()->paginate(2);
-        return view('articles.show', ['article'=>$article, 'comments'=>$comments]);
+        // $comments = Comment::where('article_id', $article->id)->latest()->paginate(2);
+        // return view('articles.show', ['article'=>$article, 'comments'=>$comments]);
+        $comments = Comment::where('article_id', $article->id)
+                            ->where('accept', 1)
+                            ->latest()->paginate(2);
+
     }
 
     /**
