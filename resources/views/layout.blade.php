@@ -31,59 +31,60 @@
                 font-family: 'Nunito', sans-serif;
             }
         </style>
-    </head>
-    <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="/article">News</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
+    </head> 
 
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-      @can('create')
-      <li class="nav-item">
-        <a class="nav-link" href="article/create">Create Article<span class="sr-only">(current)</span></a>
-      </li>
-      @endcan
-      <li class="nav-item">
-        <a class="nav-link" href="/comment">Comment<span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/contacts">Contact</a>
-      </li>
-      <!-- <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
-          Dropdown
-        </a>
-        <div class="dropdown-menu">
-          <a class="dropdown-item" href="#">Action</a>
-          <a class="dropdown-item" href="#">Another action</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">Something else here</a>
-        </div>
-      </li> -->
-      <!-- <li class="nav-item">
-        <a class="nav-link disabled">Disabled</a>
-      </li> -->
-    </ul>
-    <div class="form-inline my-2 my-lg-0">
-      @guest
-      <a href="/create" class="btn btn-outline-success my-2 my-sm-0">Registr</a>
-      <a href="/login" class="btn btn-outline-success my-2 my-sm-0">Sign in</a>
-      @endguest
-      @auth
-      <a href="/logout" class="btn btn-outline-success my-2 my-sm-0">Sign out</a>
-      @endauth
-    </div>
-  </div>
-</nav>
-<div class="container">
-    @yield('content')
-</div>
-<footer style = 'color:black; margin-left:20px; margin-top: 500px; font-size: 18px'>Kinyabulatova Uralia Samatovna, 221-321</footer>
-    </body>
+ <body> 
+  <nav class="navbar navbar-expand-lg navbar-light bg-light"> 
+    <a class="navbar-brand" href="/article">News</a> 
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"> 
+      <span class="navbar-toggler-icon"></span> 
+    </button> 
+ 
+    <div class="collapse navbar-collapse" id="navbarSupportedContent"> 
+ 
+      <ul class="navbar-nav mr-auto"> 
+        @can('create') 
+        <li class="nav-item"> 
+          <a class="nav-link" href="/article/create">Create Article<span class="sr-only">(current)</span></a> 
+        </li> 
+        <li class="nav-item"> 
+          <a class="nav-link" href="/comment">Comments <span class="sr-only">(current)</span></a> 
+        </li> 
+        @endcan 
+        <li class="nav-item"> 
+          <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a> 
+        </li> 
+ 
+        <li class="nav-item"> 
+          <a class="nav-link" href="/contacts">Contact</a> 
+        </li> 
+        @auth 
+        <li class="nav-item dropdown"> 
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false"> 
+            New Comment 
+          </a> 
+          <div class="dropdown-menu"> 
+            @foreach(auth()->user()->unreadNotifications as $notification) 
+            <a class="dropdown-item" href="{{route('article.show', ['article'=>$notification->data['article']['id'], 'notify'=>$notification->id])}}">Article: {{$notification->data['article']['name']}}</a> 
+            @endforeach 
+          </div> 
+        </li> 
+        @endauth 
+      </ul> 
+      <div class="form-inline my-2 my-lg-0"> 
+        @guest 
+        <a href="/create" class="btn btn-outline-success my-2 mr-3 my-sm-0">Registr</a> 
+        <a href="/login" class="btn btn-outline-success my-2 my-sm-0">Sign in</a> 
+        @endguest 
+        @auth 
+        <a href="/logout" class="btn btn-outline-success my-2 my-sm-0">Sign out</a> 
+        @endauth 
+      </div> 
+    </div> 
+  </nav> 
+  <div class="container"> 
+    @yield('content') 
+  </div> 
+</body> 
+ 
 </html>

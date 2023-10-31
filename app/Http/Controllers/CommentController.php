@@ -6,8 +6,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Notification;
 use App\Models\Comment;
 use App\Models\Article;
+use App\Models\User;
+use App\Notifications\NotifyNewComment;
 
 use Illuminate\Support\Facades\Mail;
 use App\Mail\AdminComment;
@@ -21,6 +24,7 @@ class CommentController extends Controller
     }
 
     public function accept(int $id){
+        Gate::authorize('admincomment');
         $comment = Comment::findOrFail($id);
         $comment->accept = true;
         $comment->save();
@@ -41,6 +45,7 @@ class CommentController extends Controller
             'article_id'=> 'required',
         ]);
         $article = Article::findOrFail($request->article_id);
+        $users = User::where('id', '!=', auth()->id())->get();
         $comment = new Comment;
         $comment->title = $request->title;
         $comment->text = $request->text;
@@ -48,6 +53,8 @@ class CommentController extends Controller
         $comment->article_id = $request->article_id;
         $res = $comment->save();
         if ($res) Mail::to('kinyabulatovauralia@gmail.com')->send(new AdminComment($article->name, $comment->text));
+        // $users->notify(new NotifyNewComment($article->$name)); //вызывает ошибку, так как нельзя от массива отправить объект
+        Notification::send($users, new NotifyNewComment($article));
         return redirect()->route('article.show', ['article'=>$request->article_id, 'res'=> $res]);
     }
 
