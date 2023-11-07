@@ -11,6 +11,8 @@ use App\Models\Comment;
 use App\Models\Article;
 use App\Models\User;
 use App\Notifications\NotifyNewComment;
+use App\Events\EventNewComment;
+
 
 use Illuminate\Support\Facades\Mail;
 use App\Mail\AdminComment;
@@ -26,12 +28,15 @@ class CommentController extends Controller
     public function accept(int $id){
         Gate::authorize('admincomment');
         $comment = Comment::findOrFail($id);
+        $article = Article::findOrFail($comment->article_id);
         $comment->accept = true;
-        $comment->save();
-        return redirect()->route('comments' );
+        $res = $comment->save();
+        if ($res) EventNewComment::dispatch($article);
+        return redirect()->route('comments');
     }
         
     public function reject(int $id){
+        Gate::authorize('admincomment');
         $comment = Comment::findOrFail($id);
         $comment->accept = false;
         $comment->save();
