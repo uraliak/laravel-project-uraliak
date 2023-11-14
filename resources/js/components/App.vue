@@ -1,16 +1,22 @@
 <template> 
-    <div v-show="this.msg !== null" class="alert  alert-primary" role="alert"> 
-    Добавлен новый комментарий к статье <strong>{{this.msg}}</strong> 
+    <div v-if="this.article" class="alert alert-primary" role="alert"> 
+        Добавлен новый комментарий к статье 
+        <a :href="`/article/${this.article.id}/`">
+            <strong>{{this.article.name}}</strong> 
+        </a> 
     </div> 
-    </template> 
+</template> 
      
     <script> 
         export default { 
-        data() { return { msg: null } }, 
+        data() { return { 
+            article: null,
+        } }, 
             created() { 
-                window.Echo.channel('test').listen('EventNewComment', (article) => { 
-                    console.log(article); 
-                    this.msg=article.name; 
+                window.Echo.channel('test').listen('EventNewComment', (data) => { 
+                    console.log(data);
+                    this.article=data.article; 
+                    console.log("Добавлен комментарий", this.article)
                     // alert('Добавлена новая статья!'); 
                 }) 
             } 
