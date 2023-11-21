@@ -13,6 +13,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void //планировщик задач
     {
         // $schedule->command('inspire')->hourly();
+        $schedule->command('sendStat')->everyMinute();
     }
 
     /**
